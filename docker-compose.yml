@@ -1,0 +1,22 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:14.5-alpine
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_DATABASE}
+    ports:
+      - ${DATABASE_PORT}:5432
+  redis:
+    image: redis:6.2-alpine
+    restart: always
+    volumes: 
+      - redis:/data
+    ports:
+      - '${REDIS_PORT}:6379'
+volumes:
+  postgres:
+  redis:
