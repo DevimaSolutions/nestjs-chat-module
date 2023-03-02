@@ -21,7 +21,6 @@ const defaultDbPort = 5432;
 const envConfig = registerAs('env', () => ({
   port: mapEnvValues.number(process.env.PORT || '', defaultAppPort),
   appName: process.env.APP_NAME || '',
-  enableSwagger: mapEnvValues.bool(process.env.ENABLE_SWAGGER || ''),
   database: {
     host: process.env.DATABASE_HOST || '',
     port: mapEnvValues.number(process.env.DATABASE_PORT || '', defaultDbPort),

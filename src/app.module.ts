@@ -5,6 +5,13 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import envConfig from './config/env.config';
 import { ConfigModule } from '@nestjs/config';
+import { ConverstionsService } from './services';
+import {
+  ConversationsRepository,
+  MessagesRepository,
+} from './database/repositories';
+import { MessagesService } from './services';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 @Module({
   imports: [
@@ -17,7 +24,8 @@ import { ConfigModule } from '@nestjs/config';
       type: 'postgres',
       synchronize: false,
       autoLoadEntities: true,
-      entities: [__dirname + '/entities/*.{ts,js}'],
+      entities: [__dirname + '/**/*.entity.{ts,js}'],
+      namingStrategy: new SnakeNamingStrategy(),
       ...envConfig().database,
     }),
     ClientsModule.register([
@@ -28,6 +36,12 @@ import { ConfigModule } from '@nestjs/config';
     ]),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    ConverstionsService,
+    ConversationsRepository,
+    MessagesService,
+    MessagesRepository,
+  ],
 })
 export class AppModule {}
